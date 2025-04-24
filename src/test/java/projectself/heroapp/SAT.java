@@ -273,6 +273,17 @@ public class SAT {
         System.out.println(driver.findElement(By.tagName("input")).getAttribute("value"));
         driver.navigate().back();
         
-        driver.close();
+           //JQuery UI Menus
+	       driver.findElement(By.linkText("JQuery UI Menus")).click();
+	       actions.moveToElement(driver.findElement(By.id("ui-id-3"))).perform();
+	       driver.findElement(By.id("ui-id-4")).click();
+	       driver.findElement(By.id("ui-id-5")).click();
+           driver.navigate().back();
+        
+           //JavaScript Alerts
+        
+        
+        
+        //driver.close();
     }
 }
