@@ -3,16 +3,22 @@ package projectself.heroapp;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -27,7 +33,12 @@ public class SAT {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.setCapability("se:cdpVersion", "");
-        WebDriver driver = new ChromeDriver(options);
+        LoggingPreferences logs = new LoggingPreferences();
+        logs.enable(LogType.BROWSER, Level.ALL);
+
+        ChromeOptions options1 = new ChromeOptions();
+        options1.setCapability("goog:loggingPrefs", logs);
+        WebDriver driver = new ChromeDriver(options1);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         Actions actions = new Actions(driver);
         JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -279,9 +290,57 @@ public class SAT {
 	       driver.findElement(By.id("ui-id-4")).click();
 	       driver.findElement(By.id("ui-id-5")).click();
            driver.navigate().back();
+        driver.navigate().back();
+           JavaScript Alerts
+           driver.findElement(By.linkText("JavaScript Alerts")).click();
+           driver.findElement(By.xpath("//button[text()='Click for JS Alert']")).click();
+           driver.switchTo().alert().accept();
+           System.out.println(driver.findElement(By.id("result")).getText());
+           Assert.assertEquals(driver.findElement(By.id("result")).getText(), "You successfully clicked an alert");
+           Thread.sleep(1000);
+           driver.findElement(By.xpath("//button[text()='Click for JS Confirm']")).click();
+           driver.switchTo().alert().dismiss();
+           System.out.println(driver.findElement(By.id("result")).getText());
+           Thread.sleep(1000);
+           driver.findElement(By.xpath("//button[text()='Click for JS Prompt']")).click();
+           driver.switchTo().alert().sendKeys("hey");
+           driver.switchTo().alert().accept();
+           Assert.assertEquals(driver.findElement(By.id("result")).getText(), "You entered: hey");
+           System.out.println(driver.findElement(By.id("result")).getText());
+           driver.navigate().back();
+           
+           JavaScript onload event error
+           driver.findElement(By.linkText("JavaScript onload event error")).click();
+           LogEntries logEntries = driver.manage().logs().get(LogType.BROWSER);
+           boolean jsErrorFound = false;
+           for (LogEntry entry : logEntries) {
+               if (entry.getLevel().toString().equals("SEVERE")) {
+                   System.out.println("JavaScript Error Found: " + entry.getMessage());
+                   jsErrorFound = true;
+               }
+           }
+           driver.navigate().back();
+           
+           //Key Presses
+           driver.findElement(By.linkText("Key Presses")).click();
+          
+           driver.findElement(By.id("target")).sendKeys(Keys.SPACE);
+           Thread.sleep(1000);
+           System.out.println(driver.findElement(By.id("result")).getText());
+           driver.findElement(By.id("target")).sendKeys(Keys.ESCAPE);
+           Thread.sleep(1000);
+           System.out.println(driver.findElement(By.id("result")).getText());
+           driver.navigate().back();
+           
+             //Large & Deep DOM
+        driver.findElement(By.linkText("Large & Deep DOM")).click();
+        js.executeScript("window.scrollBy(0, 3000)");
+
+        // Find a specific cell (e.g., Cell 50.50)
+        WebElement cell = driver.findElement(By.xpath("//td[text()='50.50']"));
+        System.out.println("Found Cell Text: " + cell.getText());
         
-           //JavaScript Alerts
-        
+        //Multiple Windows
         
         
         //driver.close();
