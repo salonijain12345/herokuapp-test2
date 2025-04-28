@@ -24,6 +24,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
+import com.google.common.base.Verify;
+
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.restassured.RestAssured;
 
@@ -386,9 +388,37 @@ public class SAT {
         driver.findElement(By.linkText("Slow Resources")).click();
         driver.navigate().back();
         //Sortable Data Tables
+        driver.findElement(By.linkText("Sortable Data Tables")).click();
+      
+        driver.findElement(By.xpath("//*[@id=\"table1\"]/thead/tr/th[1]")).click();  // Click to sort
+        Thread.sleep(2000);
+        // Fetch the data in the first column after sorting
+        List<WebElement> rows = driver.findElements(By.xpath("//*[@id=\"table1\"]/tbody/tr"));
+        for (WebElement row : rows) {
+            String cellData = row.findElement(By.xpath("./td[1]")).getText();
+            System.out.println(cellData); // Print out the sorted data from the first column
+        }
+        driver.navigate().back();
         //Status Codes
+        driver.findElement(By.linkText("Status Codes")).click();
+        driver.findElement(By.linkText("200")).click();
+        System.out.println( driver.getCurrentUrl());
+        driver.navigate().back();driver.navigate().back();
        // Typos
-       //WYSIWYG Editor
+        driver.findElement(By.linkText("Typos")).click();
+        try {
+        	driver.navigate().refresh();
+        String typo=driver.findElement(By.xpath("//*[@id=\"content\"]/div/p[2]")).getText();
+        String expected="Sometimes you'll see a typo, other times you won't";
+        if(typo.equals(expected))
+        {System.out.println("✅ No typo detected."+typo);}
+        else
+        {System.out.println("❌ Typo detected!"+typo);}
+        }
+        finally
+        {driver.navigate().back();}
+        
+        
        //driver.close();
     }
 }
