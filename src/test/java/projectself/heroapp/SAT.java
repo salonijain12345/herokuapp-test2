@@ -291,7 +291,7 @@ public class SAT {
 	       driver.findElement(By.id("ui-id-5")).click();
            driver.navigate().back();
         driver.navigate().back();
-           JavaScript Alerts
+           //JavaScript Alerts
            driver.findElement(By.linkText("JavaScript Alerts")).click();
            driver.findElement(By.xpath("//button[text()='Click for JS Alert']")).click();
            driver.switchTo().alert().accept();
@@ -309,7 +309,7 @@ public class SAT {
            System.out.println(driver.findElement(By.id("result")).getText());
            driver.navigate().back();
            
-           JavaScript onload event error
+           //JavaScript onload event error
            driver.findElement(By.linkText("JavaScript onload event error")).click();
            LogEntries logEntries = driver.manage().logs().get(LogType.BROWSER);
            boolean jsErrorFound = false;
@@ -339,10 +339,56 @@ public class SAT {
         // Find a specific cell (e.g., Cell 50.50)
         WebElement cell = driver.findElement(By.xpath("//td[text()='50.50']"));
         System.out.println("Found Cell Text: " + cell.getText());
+        driver.navigate().back();
         
         //Multiple Windows
+        driver.findElement(By.linkText("Multiple Windows")).click();
+        driver.findElement(By.linkText("Click Here")).click();
+        List<String> tabs =new ArrayList<>( driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(1));
+        System.out.println(driver.getTitle());
+        driver.navigate().back();
         
+        //Notification Messages
+        driver.findElement(By.linkText("Notification Messages")).click();
+       System.out.println(driver.findElement(By.id("flash")).getText());
+       
+        driver.findElement(By.linkText("Click here")).click();
+        System.out.println(driver.findElement(By.id("flash")).getText());
+        driver.navigate().back();
+        driver.navigate().back();
         
-        //driver.close();
+        //Redirect Link
+        driver.findElement(By.linkText("Redirect Link")).click();
+        driver.findElement(By.linkText("here")).click();
+        System.out.println(driver.getCurrentUrl());
+        driver.navigate().back();
+        driver.navigate().back();
+        
+        //Secure File Download 
+        //due to username and password in url we dont need anything else
+        driver.findElement(By.linkText("Secure File Download")).click();
+        driver.findElement(By.linkText("SomeFile.txt")).click();
+        driver.navigate().back();
+         
+        //Shadow DOM
+        driver.findElement(By.linkText("Shadow DOM")).click();
+       System.out.println(driver.findElement(By.xpath("//*[@id=\"content\"]/my-paragraph[1]/span")).getText());
+       System.out.println(driver.findElement(By.xpath("//*[@id=\"content\"]/my-paragraph[2]/ul/li[2]")).getText());
+       driver.navigate().back();
+        
+        //Shifting Content
+        driver.findElement(By.linkText("Shifting Content")).click();
+        driver.findElement(By.linkText("Example 1: Menu Element")).click();
+        driver.navigate().back();
+        driver.navigate().back();
+        //Slow Resources
+        driver.findElement(By.linkText("Slow Resources")).click();
+        driver.navigate().back();
+        //Sortable Data Tables
+        //Status Codes
+       // Typos
+       //WYSIWYG Editor
+       //driver.close();
     }
 }
