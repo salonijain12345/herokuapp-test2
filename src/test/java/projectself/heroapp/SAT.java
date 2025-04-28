@@ -182,13 +182,14 @@ public class SAT {
         
         //Entry Ad
         driver.findElement(By.linkText("Entry Ad")).click();
+        Thread.sleep(1000);
         driver.findElement(By.cssSelector(".modal-footer p")).click();
         driver.navigate().back();
         
         //exit_intent
         driver.findElement(By.linkText("Exit Intent")).click();
         //move courser to toll bar
-        Thread.sleep(4000);
+        Thread.sleep(7000);
         System.out.println(driver.findElement(By.cssSelector(".modal-footer p")).getText());
         driver.findElement(By.cssSelector(".modal-footer p")).click();
         driver.navigate().back();
@@ -196,13 +197,13 @@ public class SAT {
         //File Download
         driver.findElement(By.linkText("File Download")).click();
         driver.findElement(By.linkText("sampleFile.jpeg")).click();
-        
+        driver.navigate().back();
         //file upload
         driver.findElement(By.linkText("File Upload")).click();
         driver.findElement(By.id("file-upload")).sendKeys("C:\\Users\\saloni jain\\Downloads\\samplefile.jpeg");
         driver.findElement(By.id("file-submit")).click();
         driver.navigate().back();
-        
+        driver.navigate().back();
         //Floating Menu
         driver.findElement(By.linkText("Floating Menu")).click();
         js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
@@ -225,7 +226,7 @@ public class SAT {
         driver.findElement(By.id("password")).sendKeys("SuperSecretPassword!");
         driver.findElement(By.className("radius")).click();
         driver.findElement(By.linkText("Logout")).click();
-        Thread.sleep(2000);
+        Thread.sleep(5000);
         driver.navigate().back();
         driver.navigate().back();
         driver.navigate().back();
@@ -248,9 +249,10 @@ public class SAT {
 	    driver.findElement(By.cssSelector(".tox-notification__dismiss")).click();
 	    driver.switchTo().frame("mce_0_ifr");
 	    System.out.println(driver.findElement(By.tagName("body")).getText());
+	    Thread.sleep(2000);
+	    driver.navigate().back();
         driver.navigate().back();
-        driver.navigate().back();
-        
+        //Thread.sleep(2000);
 	  //Geolocation
         driver.findElement(By.linkText("Geolocation")).click();  
         driver.findElement(By.xpath("//button[text()='Where am I?']")).click();
@@ -349,6 +351,9 @@ public class SAT {
         List<String> tabs =new ArrayList<>( driver.getWindowHandles());
         driver.switchTo().window(tabs.get(1));
         System.out.println(driver.getTitle());
+        driver.close();
+        driver.switchTo().window(tabs.get(0));
+        Thread.sleep(1000);
         driver.navigate().back();
         
         //Notification Messages
@@ -393,8 +398,8 @@ public class SAT {
         driver.findElement(By.xpath("//*[@id=\"table1\"]/thead/tr/th[1]")).click();  // Click to sort
         Thread.sleep(2000);
         // Fetch the data in the first column after sorting
-        List<WebElement> rows = driver.findElements(By.xpath("//*[@id=\"table1\"]/tbody/tr"));
-        for (WebElement row : rows) {
+        List<WebElement> rows1 = driver.findElements(By.xpath("//*[@id=\"table1\"]/tbody/tr"));
+        for (WebElement row : rows1) {
             String cellData = row.findElement(By.xpath("./td[1]")).getText();
             System.out.println(cellData); // Print out the sorted data from the first column
         }
